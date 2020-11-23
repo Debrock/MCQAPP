@@ -35,10 +35,21 @@ var Result = new mongoose.model("Result", resultSchema);
 
 app.post("/mcq",function(req,res){
     const submittedName = new Result(req.body);
-
+    var marks = 0;
     submittedName.save()
     .then(item => {
-    res.render("answer");
+        if(req.body.Answer1 == "Dessert Egale"){
+            marks = marks +1;
+        }
+        if(req.body.Answer2 == "Smith & Wesson" ){
+            marks = marks +1; 
+        }
+        
+        res.render("answer", {
+            Marksrecived: marks,
+            yourans1: req.body.Answer1,
+            yourans2: req.body.Answer2
+        });
     })
     .catch(err => {
     res.render("mcq");
